@@ -7,13 +7,11 @@
  *
  * Return: 0.
 */
-
-int line_checker(char *line);
 int main(int argc __attribute__((unused)), char *argv[])
 {
 	struct stat st;
 	pid_t pid;
-	char *buf, *command, *shell_name, *new, *me;
+	char *buf, *command, *shell_name;
 	int status, i = 0, j = 0;
 	size_t size = 0;
 
@@ -24,33 +22,40 @@ int main(int argc __attribute__((unused)), char *argv[])
 	if (pid == 0)
 	{
 		printf("#cisfun$ ");
-		
 		if (getline(&buf, &size, stdin) == -1)
 			exit(1);
 
 		command = strtok(buf, " ");
-		//printf("%s\n", command);
-		argv[j] = malloc(strlen(command) * sizeof(char) - 1);
-			if (argv[j] == NULL)
-				printf("malloc :\n");
+		argv[j] = malloc(strlen(command) * sizeof(char) + 1);
+		if (argv[j] == NULL)
+		{
+			printf("malloc :\n");
+			exit(1);
+		}
 		while (command[i] != '\n' && command[i] != '\0')
 		{
 			*(argv[j] + i) = command[i];
 			i++;
-		} j++;
-		command = strtok(NULL, "\n");
-		if (command != NULL)
+		}
+		j++;
+		command = strtok(NULL, " ");
+		while (command != NULL && command != "\n")
 		{
 			i = 0;
-			argv[j] = malloc(strlen(command) * sizeof(char) - 1);
+			argv[j] = malloc(strlen(command) * sizeof(char) + 1);
 			if (argv[j] == NULL)
+			{
 				perror(argv[0]);
+				exit(1);
+			}
 			while (command[i] != '\n')
 			{
 				*(argv[j] + i) = command[i];
 				i++;
 			}
-		} j++;
+			command = strtok(NULL, " ");
+			j++;
+		}
 		argv[j] = NULL;
 		/*printf("%s\n", argv[1]);*/
 		//if (stat(command, &st) == -1)
@@ -60,12 +65,12 @@ int main(int argc __attribute__((unused)), char *argv[])
 		//}
 		if (execve(argv[0], argv, NULL))
 		{
-			dprintf(1, "%s: 1: %s: not found\n", shell_name, argv[1]);
+			dprintf(1, "%s: 1: %s: not found\n", shell_name, argv[0]);
 			exit(1);
 		}
-		int f = 0;
-		while (argv[f] != NULL)
-			free(argv[f++]);
+		j = 0;
+		while (argv[j] != NULL)
+			free(argv[j++]);
 	}
 	else
 		wait(&status);
