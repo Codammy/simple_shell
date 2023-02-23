@@ -1,5 +1,5 @@
 # C - Simple Shell
-Project to be done in teams of [two](AUTHOR);
+Project to be done in teams of [two](AUTHORS);
 Alx software engineering program group task
 A SIMPLE SHELL ENVIRONMENT
 
