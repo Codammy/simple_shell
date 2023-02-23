@@ -1,18 +1,11 @@
 # C - Simple Shell
 Project to be done in teams of [two](AUTHORS);
-Alx software engineering program group task
+Alx software engineering group task
 A SIMPLE SHELL ENVIRONMENT
 
 Requirements
 General
 Allowed editors: vi, vim, emacs
-All files compiled on Ubuntu 20.04 LTS using gcc, using the options -Wall -Werror -Wextra -pedantic -std=gnu89
-All script files should end with a new line.
-A README.md file, at the root of the folder of the project is mandatory
-code uses the Betty style. checked using betty-style.pl and betty-doc.pl
-No shell should have any memory leaks
-No more than 5 functions per file
-All header files should be include guarded.
 
 Compilation
 shell will be compiled this way:
@@ -40,11 +33,6 @@ $ cat test_ls_2 | ./hsh
 hsh main.c shell.c test_ls_2
 hsh main.c shell.c test_ls_2
 $
-
-More Info
-Output
-Unless specified otherwise, program must have the exact same output as sh (/bin/sh) as well as the exact same error output.
-The only difference is when you print an error, the name of the program must be equivalent to your argv[0] See below..
 
 Example of error with sh:
 
