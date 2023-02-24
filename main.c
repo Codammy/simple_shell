@@ -14,7 +14,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *env[])
 	char *buf, *command, *shell_name;
 	int status, i = 0, j = 0, c = 1;
 	size_t size = 0;
-
+	
 	shell_name = argv[0];
 	while (1)
 	{	
@@ -28,13 +28,14 @@ int main(int argc __attribute__((unused)), char *argv[], char *env[])
 		if (argv[j] == NULL)
 		{
 			printf("malloc :\n");
-			exit(1);
+			return(1);
 		}
 		while ((command[i] != '\n') && (command[i] != '\0'))
 		{
 			*(argv[j] + i) = command[i];
 			i++;
 		}
+
 		j++;
 		command = strtok(NULL, " ");
 		while ((command != NULL) && (*command != '\0'))
@@ -44,7 +45,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *env[])
 			if (argv[j] == NULL)
 			{
 				perror(argv[0]);
-				exit(1);
+				return(1);
 			}
 			while (command[i] != '\n')
 			{
@@ -55,7 +56,8 @@ int main(int argc __attribute__((unused)), char *argv[], char *env[])
 			j++;
 		}
 		argv[j] = NULL;
-		
+		if (strcmp(argv[0], "exit") == 0)
+			exit(1);
 		pid = fork();
                 if (pid == 0)
                 {
