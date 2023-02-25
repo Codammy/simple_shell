@@ -24,6 +24,8 @@ int main(int argc __attribute__((unused)), char *argv[], char *env[])
 			exit(1);
 		/*env = getenv("PATH");*/
 		command = strtok(buf, " ");
+		if (command[0] == '\n')
+			continue;
 		argv[j] = malloc(strlen(command) * sizeof(char) + 1);
 		if (argv[j] == NULL)
 		{
@@ -34,9 +36,7 @@ int main(int argc __attribute__((unused)), char *argv[], char *env[])
 		{
 			*(argv[j] + i) = command[i];
 			i++;
-		}
-
-		j++;
+		} j++;
 		command = strtok(NULL, " ");
 		while ((command != NULL) && (*command != '\0'))
 		{
