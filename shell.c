@@ -27,7 +27,7 @@ int main(int __attribute__((unused)) argc, char **arg)
 		if (feof(stdin))
 		{
 	/*	putchar('\n');*/
-		exit(127);
+		exit(0);
 		}
 		command = strtok(buf, " ");
 		
