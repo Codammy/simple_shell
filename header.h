@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <fcntl.h>
 /** Manually add others */
-#define MAXLINE 2048
+#define MAXLINE 50
 #include <sys/types.h>
 #include <sys/wait.h>
 #endif

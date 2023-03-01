@@ -26,6 +26,7 @@ int main(int __attribute__((unused)) argc, char **arg)
 		fflush(NULL);
 		if (feof(stdin))
 		{
+		free(buf);
 	/*	putchar('\n');*/
 		exit(0);
 		}
@@ -49,12 +50,12 @@ int main(int __attribute__((unused)) argc, char **arg)
 		pid = fork();
 		if (pid == 0)
 		{
-		execve(av[0], av, NULL);
+		execve(av[0], av, environ);
 		dprintf(1, "%s: %d: %s: not found\n", shell_name, error_line, av[0]);
 		exit(0);
 		}
 		else
-			wait(&status);
+			wait(&status);;
 		free(av[0]);
 		error_line++;
 	}
