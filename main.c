@@ -7,48 +7,45 @@
  *
  * Return: 0.
 */
+void _sig_handler(int sig)
+{
+	sig = sig;
+	exit(0);
+}
 int main(int argc __attribute__((unused)), char *argv[])
 {
-	struct stat st;
 	pid_t pid;
-	char *buf, *command;
-	int status;
+	char *buf, *command, *shell_name = argv[0];
+	int status, line;
 	size_t size = 0;
 
+	line = 1;
 	while (1)
 	{
+		pid = fork();
+		if (pid == 0)
+		{
                 printf("$ ");
-		if (getline(&buf, &size, stdin) == -1)
+
+		getline(&buf, &size, stdin);
+		/*if (feof(stdin))
 		{
-			putchar('\n');
-			exit(0);
-		}
-		if (feof(stdin))
-		{
-			putchar('\n');
-			exit(0);
-		}
+			fflush(NULL);
+			kill(0, SIGINT);
+		}*/
 		fflush(NULL);
 
-		pid = fork();
-	if (pid == 0)
-	{
 		command = strtok(buf, "\n");
 		argv[0] = command;
 		argv[1] = NULL;
-		if (stat(command, &st) == -1)
-		{
-			perror("Error:");
-			exit(0);
-		}
-		if (execve(argv[0], argv, NULL))
-		{
-			perror("Error:");
-			exit(0);
-		}
+
+		execve(argv[0], argv, NULL);
+		dprintf(STDERR_FILENO, "%s: %d: %s: not found\n", shell_name, line, argv[0]);
+		exit(0);
 	}
 	else
 		wait(&status);
+	line++;
 	}
 	return (0);
 }

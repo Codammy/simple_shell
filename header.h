@@ -8,7 +8,8 @@
 #include <fcntl.h>
 /** Manually add others */
 #define MAXLINE 50
-#include  <sys/stat.h>
-#include <sys/types.h>
+#include <signal.h>
 #include <sys/wait.h>
+#include <sys/types.h>
+
 #endif
