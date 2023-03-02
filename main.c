@@ -1,51 +1,49 @@
 #include "header.h"
 
 /**
- * main - simple shell.
- * @argc: number of arguments passed at run time.
- * @argv: array of pointers to string (passed at run time)
+ * main - "description"
  *
- * Return: 0.
-*/
-void _sig_handler(int sig)
+ *
+ */
+char **environ;
+int main(int argc, char *argv[])
 {
-	sig = sig;
-	exit(0);
-}
-int main(int argc __attribute__((unused)), char *argv[])
-{
-	pid_t pid;
-	char *buf, *command, *shell_name = argv[0];
-	int status, line;
+	struct stat st;
+	char *buff, *command, *hsh;
 	size_t size = 0;
+	pid_t id;
+	char *av[50];
+	hsh = argv[0];
 
-	line = 1;
 	while (1)
 	{
-		pid = fork();
-		if (pid == 0)
+		if (isatty(STDIN_FILENO) == 1)
+			printf(">_ ");
+
+		getline(&buff, &size, stdin);
+		if (feof(stdin) && isatty(STDIN_FILENO))
 		{
-                printf("$ ");
+			putchar('\n');
+			exit(0);
+		}
+		command = strtok(buff, "\n");
+		av[0] = command;
+		av[1] = NULL;
 
-		getline(&buf, &size, stdin);
-		/*if (feof(stdin))
+		if (stat(av[0], &st) == -1)
+			perror(hsh);
+		id = fork();
+		if (id == 0)
 		{
-			fflush(NULL);
-			kill(0, SIGINT);
-		}*/
-		fflush(NULL);
-
-		command = strtok(buf, "\n");
-		argv[0] = command;
-		argv[1] = NULL;
-
-		execve(argv[0], argv, NULL);
-		dprintf(STDERR_FILENO, "%s: %d: %s: not found\n", shell_name, line, argv[0]);
-		exit(0);
+			execve(av[0], av, environ);
+			exit(0);
+		}
+		else
+		{
+			wait(NULL);
+			if (isatty(STDIN_FILENO) == 0)
+				exit(0);
+		}
+		argc++;
 	}
-	else
-		wait(&status);
-	line++;
-	}
-	return (0);
 }
