@@ -10,11 +10,12 @@ int main(int argc, char *argv[])
 {
 	struct stat st;
 	char *buff, *command, *hsh;
-	size_t size = 0;
+	size_t size = 3;
 	pid_t id;
 	char *av[50];
-	hsh = argv[0];
 
+	hsh = argv[0];
+	buff = malloc(size);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO) == 1)
@@ -23,6 +24,7 @@ int main(int argc, char *argv[])
 		getline(&buff, &size, stdin);
 		if (feof(stdin) && isatty(STDIN_FILENO))
 		{
+			free(buff);
 			putchar('\n');
 			exit(0);
 		}
@@ -36,14 +38,19 @@ int main(int argc, char *argv[])
 		if (id == 0)
 		{
 			execve(av[0], av, environ);
+			free(buff);
 			exit(0);
 		}
 		else
 		{
 			wait(NULL);
 			if (isatty(STDIN_FILENO) == 0)
+			{
+				free(buff);
 				exit(0);
+			}
 		}
 		argc++;
 	}
+	free(buff);
 }
