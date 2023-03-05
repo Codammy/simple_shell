@@ -11,6 +11,6 @@
 #include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-char *trim_whitesp(char *s);
 int num_arg(char *comm, char **arg);
+void freeMem(char **p);
 #endif

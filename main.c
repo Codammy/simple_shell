@@ -13,13 +13,12 @@ int main(int argc, char *argv[])
 	size_t size = 3;
 	int len;
 	pid_t id;
-	char *av[2];
+	char *av[50];
 
 	hsh = argv[0];
 	buff = malloc(size);
 	while (1)
 	{
-		argc = 0;
 		if (isatty(STDIN_FILENO) == 1)
 			printf(">_ ");
 
@@ -40,22 +39,24 @@ int main(int argc, char *argv[])
 		if (stat(av[0], &st) == -1)
 		{
 			perror(hsh);
-			free(av[0]);
+			freeMem(av);
 			continue;
 		}
+
 		id = fork();
 		if (id == 0)
 		{
-			execve(av[0], av, NULL);
+			execve(av[0], av, environ);
+			perror(av[0]);
 			free(buff);
-			free(av[0]);
+			freeMem(av);
 			exit(0);
 		}
 		else
 		{
 			wait(NULL);
 		}
-		free(av[0]);
+		freeMem(av);
 		argc++;
 	}
 	free(buff);

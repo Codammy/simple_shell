@@ -10,54 +10,23 @@
 int num_arg(char *comm, char **arg)
 {
         char *xend;
-        int i = 0;
+        int i, j = 0, len = 0;
 
         xend = strtok(comm, " ");
         while (xend != NULL)
         {
-                arg[i] = trim_whitesp(xend);
+		i = 0;
+		while (xend[i])
+			i++;
+                arg[j] = malloc(i * sizeof(char));
+		i = 0;
+		while (xend[i])
+		{
+			*(arg[j] + i) = xend[i];
+			i++;
+		} j++;
                 xend = strtok(NULL, " ");
-                i++;
+		len++;
         }
-        return(i);
-}
-
-/**
- * trim_whitesp - removes trailing whitespace
- *
- * @s: command or argument
- * Return: command or argument.
- */
-char *trim_whitesp(char *s)
-{
-        char *tok, *new;
-        int count = 0, i = 0, j = 0;
-
-        tok = strtok(s, " ");
-        while (tok != NULL)
-                tok = strtok(NULL, " ");
-        while (s[i])
-        {
-                if (s[i] == ' ')
-                {
-                        i++;
-                        continue;
-                }
-                count++;
-                i++;
-        }
-        i = 0;
-        new = malloc(count * sizeof(char));
-        while (s[i])
-        {
-                if (s[i] == ' ')
-                {
-                        i++;
-                        continue;
-                }
-                new[j] = s[i];
-                j++;
-                i++;
-        }
-        return (new);
+        return(len);
 }
