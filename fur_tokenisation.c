@@ -6,13 +6,17 @@
  * @cmdline: line
  * @command: each token is set to index
  */
-void _strtok(char *cmdline, char **command)
+int _strtok(char *cmdline, char **command)
 {
-        char *cmdl, *cmd;
+        char *cmd;
         int i = 0;
 
-        cmdl = strdup(cmdline);
-        cmd = strtok(cmdl, " ");
+        cmd = strtok(cmdline, " ");
+	if (!cmd)
+	{
+		free(cmdline);
+		return (1);
+	}
         while (cmd)
         {
                 command[i] = strdup(cmd);
@@ -20,6 +24,6 @@ void _strtok(char *cmdline, char **command)
                 cmd = strtok(NULL, " ");
         }
         command[i] = NULL;
-        free(cmdl);
-
+        free(cmdline);
+	return (0);
 }

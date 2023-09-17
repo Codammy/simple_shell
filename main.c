@@ -10,7 +10,7 @@
 int main(int __attribute__((unused)) ac, char **av)
 {
         int exit_status = 0;
-        unsigned int size = 0, n = 0;
+        size_t size = 0, n = 0;
         char *buffer = NULL, *command[1024], *cmdline;
         FILE *stream;
 
@@ -24,12 +24,12 @@ int main(int __attribute__((unused)) ac, char **av)
                 {
                         if (isatty(STDIN_FILENO) && stream == stdin)
                                 putchar('\n');
+			free(buffer);
                         exit(exit_status);
                 }
                 fflush(stream);
-                cmdline = strtok(buffer, "\n");
-                control(av, cmdline, command, &exit_status, n);
-                free(buffer);
+                control(av, buffer, command, &exit_status, n);
+               // free(buffer);
         }
         fclose(stream);
         return (exit_status);
