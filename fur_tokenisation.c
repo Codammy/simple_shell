@@ -11,19 +11,15 @@ int _strtok(char *cmdline, char **command)
         char *cmd;
         int i = 0;
 
+        strtok(cmdline, "\0");
         cmd = strtok(cmdline, " ");
-	if (!cmd)
-	{
-		free(cmdline);
-		return (1);
-	}
         while (cmd)
         {
-                command[i] = strdup(cmd);
-                i++;
+		command[i] = strdup(cmd);
                 cmd = strtok(NULL, " ");
+		i++;
         }
+	if (i == 0) return (1);
         command[i] = NULL;
-        free(cmdline);
 	return (0);
 }

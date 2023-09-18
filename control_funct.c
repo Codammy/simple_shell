@@ -19,7 +19,7 @@ void control(char **av, char *b, char **command, int *exit_, int n)
 	cmdl = strtok(b, "\n");
         while (cmdl)
         {
-                if (_strtok(strdup(cmdl), command) == 1)
+                if (_strtok(cmdl, command) == 1)
 		{
                         cmdl = strtok(NULL, "\n");
                         continue;
@@ -48,4 +48,5 @@ void control(char **av, char *b, char **command, int *exit_, int n)
 		}
 		cmdl = strtok(NULL, "\n");
 	}
+	free(cmdl);
 }
