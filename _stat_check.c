@@ -4,39 +4,43 @@
  * _stats - checks for the command status and fix path
  *
  * @command: commands.
- * Return: 0 on sucess.
+ * Return: full command path.
  */
 
-int _stats(char **command)
+char *_stats(char *command)
 {
         char *path, *cmd, *tmp, *current_path;
         struct stat file_info;
+	int i = 0;
 
-        if (**command == '/')
+        if (*command == '/')
         {
-                if (stat(command[0], &file_info) == 0)
-                        return (0);
-                return (1);
+                if (stat(command, &file_info) == 0)
+                        return (command);
+                return (NULL);
         }
         path = strdup(getenv("PATH"));
         tmp = strtok(path, ":");
         while (tmp)
         {
                 current_path = strdup(tmp);
-                cmd = malloc(strlen(current_path) + strlen(command[0]) + 1);
-                sprintf(cmd, "%s/%s", current_path, command[0]);
+                cmd = malloc(64);
+		while (i < 64)
+		{
+			cmd[i] = '\0';
+			i++;
+		}
+                sprintf(cmd, "%s/%s", current_path, command);
+		free(current_path);
                 if (stat(cmd, &file_info) == 0)
                 {
-                        free(command[0]);
+                        free(command);
 			free(path);
-                        free(current_path);
-                       command[0] = cmd;
-                        return (0);
+                        return (cmd);
                 }
-                free(cmd);
-               free(current_path);
-             tmp = strtok(NULL, ":");
-        }
+		free(cmd);
+		tmp = strtok(NULL, ":");
+	}
         free(path);
-	return (1);
+	return (NULL);
 }

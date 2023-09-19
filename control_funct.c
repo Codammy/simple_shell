@@ -14,7 +14,7 @@ void control(char **av, char *b, char **command, int *exit_, int n)
 {
         pid_t pid;
         int st;
-	char *cmdl;
+	char *cmdl, *c;
 
 	cmdl = strtok(b, "\n");
         while (cmdl)
@@ -29,7 +29,8 @@ void control(char **av, char *b, char **command, int *exit_, int n)
                         cmdl = strtok(NULL, "\n");
                         continue;
                 }
-                if (_stats(command) != 0)
+                c = _stats(command[0]);
+		if (c == NULL)
                 {
                         dprintf(STDERR_FILENO, "%s: %u: %s: not found\n", av[0], n, command[0]);
                         _free(command);
@@ -37,6 +38,7 @@ void control(char **av, char *b, char **command, int *exit_, int n)
                         cmdl = strtok(NULL, "\n");
                         continue;
                 }
+		command[0] = c;
                 pid = fork();
                 if (pid == 0)
                         execve(command[0], command, environ);
