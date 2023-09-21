@@ -2,3 +2,5 @@ pwd
 pwd
 wrong command
 ls hdg
+ls
+echo Hello World!!

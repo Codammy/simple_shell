@@ -5,21 +5,23 @@
  *
  * @cmdline: line
  * @command: each token is set to index
+ * Return: 0 on success
  */
 int _strtok(char *cmdline, char **command)
 {
-        char *cmd;
-        int i = 0;
+	char *cmd;
+	int i = 0;
 
-        strtok(cmdline, "\0");
-        cmd = strtok(cmdline, " ");
-        while (cmd)
-        {
+	strtok(cmdline, "\0");
+	cmd = strtok(cmdline, " ");
+	while (cmd)
+	{
 		command[i] = strdup(cmd);
-                cmd = strtok(NULL, " ");
+		cmd = strtok(NULL, " ");
 		i++;
-        }
-	if (i == 0) return (1);
-        command[i] = NULL;
+	}
+	if (i == 0)
+		return (1);
+	command[i] = NULL;
 	return (0);
 }

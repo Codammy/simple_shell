@@ -9,17 +9,17 @@
  */
 FILE *read_file(char *file, char *pname)
 {
-        FILE *stream;
+	FILE *stream;
 
-        if (file)
-        {
-                stream = fopen(file, "r");
-                if (!stream)
-                {
-                        dprintf(STDERR_FILENO, "%s: 0: cannot open %s: No such file", pname, file);
-                        exit(errno);
-                }
-                return (stream);
-        }
-        return (stdin);
+	if (file)
+	{
+		stream = fopen(file, "r");
+		if (!stream)
+		{
+			dprintf(STDERR_FILENO, "%s: 0: cannot open %s: No such file", pname, file);
+			exit(errno);
+		}
+		return (stream);
+	}
+	return (stdin);
 }

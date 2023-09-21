@@ -1,5 +1,6 @@
 #ifndef MAIN
 #define MAIN
+#define BUFSIZE 1024
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
