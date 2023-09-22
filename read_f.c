@@ -3,21 +3,21 @@
 /**
  * read_file - reads from file
  *
- * @file: file to read from
- * @pname: program name incase of error printing
+ * @f: file to read from
+ * @p: program name incase of error printing
  * Return: stdin or pointer to fike(depending on file existence)
  */
-FILE *read_file(char *file, char *pname)
+FILE *read_file(char *f, char *p)
 {
 	FILE *stream;
 
-	if (file)
+	if (f)
 	{
-		stream = fopen(file, "r");
+		stream = fopen(f, "r");
 		if (!stream)
 		{
-			dprintf(STDERR_FILENO, "%s: 0: cannot open %s: No such file", pname, file);
-			exit(errno);
+			dprintf(STDERR_FILENO, "%s: 0: cannot open %s: No such file\n", p, f);
+			exit(127);
 		}
 		return (stream);
 	}

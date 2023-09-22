@@ -24,7 +24,7 @@ void control(char **av, char *b, char **command, int *exit_, int n)
 			cmdl = strtok(NULL, "\n");
 			continue;
 		}
-		if (_builtins(command, b) == 0)
+		if (_builtins(command, av[0], n, exit_, b) == 0)
 		{
 			cmdl = strtok(NULL, "\n");
 			continue;
