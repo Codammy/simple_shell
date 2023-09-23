@@ -42,7 +42,7 @@ int _builtins(char **c, char *p, int l, int *s, char *b)
 			dprintf(STDERR_FILENO, "%s: %d: exit: Illegal number: %s\n", p, l, c[1]);
 			*s = 2;
 			_free(c);
-			return (1);
+			return (0);
 		}
 	}
 	if (strcmp(c[0], "env") == 0)
